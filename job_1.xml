@@ -1,0 +1,44 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Run tests for the Tkinter application project and print results</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  
+  <scm>
+    <git>
+      <url>git@github.com:your-repo/your-project.git</url> <!-- Replace with your repo URL -->
+    </git>
+  </scm>
+
+  <builders>
+    <hudson.tasks.Shell>
+      <command>
+        #!/bin/bash
+        
+        # Change to project directory (set this to your project path inside Jenkins workspace)
+        cd $WORKSPACE/project-directory/   # Replace with actual project directory
+        
+        # Activate virtual environment (for both UNIX and Windows systems)
+        source ./venv/bin/activate || .\\venv\\Scripts\\activate
+        
+        # Install dependencies
+        pip install -r requirements.txt
+        
+        # Run tests and print results to console
+        python -m unittest discover -s tests -v
+        
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>**/test-results/*.xml</testResults> <!-- Adjust if necessary -->
+      <keepLongStdio>true</keepLongStdio>
+      <testDataPublishers/>
+    </hudson.tasks.junit.JUnitResultArchiver>
+  </publishers>
+  
+  <buildWrappers/>
+</project>
