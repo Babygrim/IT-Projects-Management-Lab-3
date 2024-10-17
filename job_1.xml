@@ -7,7 +7,7 @@
   
   <scm>
     <git>
-      <url>git@github.com:your-repo/your-project.git</url> <!-- Replace with your repo URL -->
+      <url>git@github.com:Babygrim/IT-Projects-Management-Lab-3.git</url> <!-- Replace with your repo URL -->
     </git>
   </scm>
 
@@ -17,10 +17,7 @@
         #!/bin/bash
         
         # Change to project directory (set this to your project path inside Jenkins workspace)
-        cd $WORKSPACE/project-directory/   # Replace with actual project directory
-        
-        # Activate virtual environment (for both UNIX and Windows systems)
-        source ./venv/bin/activate || .\\venv\\Scripts\\activate
+        cd $WORKSPACE/J:/My Drive\Study/VII семестр/Управління ІТ-проектами/Lab 4/IT-Projects-Management-Lab-3  # Replace with actual project directory
         
         # Install dependencies
         pip install -r requirements.txt

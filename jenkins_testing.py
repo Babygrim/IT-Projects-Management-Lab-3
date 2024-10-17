@@ -19,8 +19,14 @@ server = jenkins.Jenkins(host, username=username, password=password) #automation
 # server.create_job("job1", jenkins.EMPTY_CONFIG_XML)
 
 #create pre-configured-job
-server.delete_job('job1')
-job1_xml = open("./venv/job_1.xml", mode='r', encoding='utf-8').read()
+try:
+    server.delete_job('job1')
+    server.delete_job('job2')
+    server.delete_job('lab 3 job')
+except jenkins.NotFoundException:
+    pass
+
+job1_xml = open("./job_1.xml", mode='r', encoding='utf-8').read()
 server.create_job("job1", job1_xml)
 
 # job3_xml = open("job3.xml", mode='r', encoding='utf-8').read()
