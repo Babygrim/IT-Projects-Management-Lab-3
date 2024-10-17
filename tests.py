@@ -1,5 +1,4 @@
 import unittest
-import xmlrunner
 from unittest.mock import Mock
 from tkinter import Tk
 from PIL import Image
@@ -43,5 +42,5 @@ class TestApp(unittest.TestCase):
         self.assertIsNone(self.app.tkinter_image)
 
 if __name__ == "__main__":
-    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='test-results'))
+    unittest.main()
 

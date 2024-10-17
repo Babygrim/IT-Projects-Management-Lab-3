@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 import os
 from math import ceil
 from PIL import ImageTk, Image, ImageOps, ImageEnhance, ImageFilter
@@ -36,6 +36,7 @@ class App():
         self.placeholder_image = placeholder_image
         self.unfiltered_image = unfiltered_image
         self.tkinter_image = tkinter_image
+        self.image_reference_name = None
                 
         #modifications track
         self.kwargs = kwargs
@@ -68,6 +69,9 @@ class App():
         
         self.remove_pic_button = tk.Button(self.buttons_frame, text="Remove image", command=self.remove_image, state=tk.DISABLED, width=20)
         self.remove_pic_button.grid(row=12, column=0, padx=2, pady=3)
+        
+        self.save_pic_button = tk.Button(self.buttons_frame, text="Save image", command=self.save_image, state=tk.DISABLED, width=20)
+        self.save_pic_button.grid(row=13, column=0, padx=2, pady=3)
 
         self.invert_colors = tk.Button(self.buttons_frame, text="Invert image colors", command=self.invert_image_colors, state= tk.DISABLED, width=20)
         self.invert_colors.grid(row=0, column=0, padx=2, pady=3)
@@ -179,19 +183,20 @@ class App():
         #self.photo_frame.bind("<Configure>", self.resize_image)
         
     def get_image(self):
-        #filename = filedialog.askopenfilename(initialdir=os.getcwd(), filetypes=[("Picture Files", ".jpg .png .webp .svg")])
-        if "./test_image.jpg":
-            self.extracted_image = Image.open("./test_image.jpg").convert("RGBA")
+        filename = filedialog.askopenfilename(initialdir=os.getcwd(), filetypes=[("Picture Files", ".jpg .png .webp .svg")])
+        if filename:
+            self.extracted_image = Image.open(filename).convert("RGBA")
             self.modified_image = self.extracted_image.copy()
-            self.placeholder_image = self.extracted_image.copy()
-            self.unfiltered_image = self.extracted_image.copy()
-            #self.tkinter_image = ImageTk.PhotoImage(self.extracted_image)
-
+            self.placeholder_image = self.modified_image.copy()
+            self.unfiltered_image = self.placeholder_image.copy()
+            self.tkinter_image = ImageTk.PhotoImage(self.modified_image)
+            self.image_reference_name = filename.split('/')[-1]
+            
             # hide add button
             self.add_pic_button.place_forget()
             # show remove button
 
-            self.photo_holder = tk.Label(self.photo_frame)
+            self.photo_holder = tk.Label(self.photo_frame, image=self.tkinter_image)
             self.photo_holder.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
             
             #enable button pack
@@ -202,6 +207,7 @@ class App():
             self.sharpness_selector.config(state="normal")
             self.contrast_selector.config(state="normal")
             self.blur_selector.config(state="normal")
+            self.save_pic_button.config(state="normal")
             #self.emboss_selector.config(state="normal")
             
             # pic resize 
@@ -215,7 +221,24 @@ class App():
         self.tkinter_image = None
         self.main_frame.destroy()
         self.build_Window()
+    
+    def save_image(self):
+        # Open a file dialog to select the save location
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".png",
+            initialfile="modified_" + self.image_reference_name,
+            filetypes=[("All files", "*.*")],
+            title="Save an image"
+        )
+        if file_path:
+            try:
+                # Save the modified image
+                self.placeholder_image.save(file_path)
+                messagebox.showinfo("Success", "Image saved successfully!")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to save image: {e}")
         
+    
     def invert_image_colors(self): 
         try:
             r, g, b, a =  self.modified_image.split()
