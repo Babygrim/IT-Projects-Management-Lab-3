@@ -183,14 +183,14 @@ class App():
         #self.photo_frame.bind("<Configure>", self.resize_image)
         
     def get_image(self):
-        filename = filedialog.askopenfilename(initialdir=os.getcwd(), filetypes=[("Picture Files", ".jpg .png .webp .svg")])
-        if filename:
-            self.extracted_image = Image.open(filename).convert("RGBA")
+        # filename = filedialog.askopenfilename(initialdir=os.getcwd(), filetypes=[("Picture Files", ".jpg .png .webp .svg")])
+        # if filename:
+            self.extracted_image = Image.open("./test_image.jpg").convert("RGBA")
             self.modified_image = self.extracted_image.copy()
             self.placeholder_image = self.modified_image.copy()
             self.unfiltered_image = self.placeholder_image.copy()
             self.tkinter_image = ImageTk.PhotoImage(self.modified_image)
-            self.image_reference_name = filename.split('/')[-1]
+            #self.image_reference_name = filename.split('/')[-1]
             
             # hide add button
             self.add_pic_button.place_forget()

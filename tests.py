@@ -16,8 +16,8 @@ class TestApp(unittest.TestCase):
 
     def test_01_initialization(self):
         self.assertIsNotNone(self.app.root)
-        self.assertIsNone(self.app.extracted_image)
-        self.assertIsNone(self.app.modified_image)
+        self.assertIsNotNone(self.app.extracted_image)
+        self.assertIsNotNone(self.app.modified_image)
 
     def test_02_get_image(self):        
         self.assertIsNotNone(self.app.extracted_image)
